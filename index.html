@@ -214,7 +214,8 @@ function pick(v, btn) {
       : c.ok.length === 3 ? `<strong>There’s no single answer.</strong>`
       : match && c.ok.length === 1 ? `<strong>That’s the usual answer in much of the U.S.</strong> But not everywhere:`
       : match ? `<strong>That’s a defensible answer.</strong> So is ${c.ok.filter(k => k !== v).map(k => NAME[k].toLowerCase()).join(" or ")}.`
-      : `<strong>You could argue it.</strong> The usual answer is ${usual(c)}.`);
+      : c.kind === "place" ? `<strong>Not in the U.S.</strong> The usual answer there is ${usual(c)}.`
+      : `<strong>Not quite.</strong> The usual answer is ${usual(c)}.`);
   $("note").textContent = c.note;
   $("reveal").classList.remove("hidden"); $("next").focus();
 }
