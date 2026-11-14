@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folkway, More, or Taboo?</title>
+<meta name="description" content="Sort 16 behaviors by how seriously people take the rule they break. Some are easy. Some depend on where and when you live.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gsharpokie.github.io/normsort/">
+<meta property="og:title" content="Folkway, More, or Taboo?">
+<meta property="og:description" content="Sort 16 behaviors by how seriously people take the rule they break. Some are easy. Some depend on where and when you live.">
+<meta property="og:image" content="https://gsharpokie.github.io/normsort/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Folkway, More, or Taboo? A card reading “Cutting into the middle of a long line” with three choices.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@gsharpokie">
+<meta name="twitter:title" content="Folkway, More, or Taboo?">
+<meta name="twitter:description" content="Sort 16 behaviors by how seriously people take the rule they break. Some are easy. Some depend on where and when you live.">
+<meta name="twitter:image" content="https://gsharpokie.github.io/normsort/preview.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232b2440'/%3E%3Crect x='4' y='9' width='7' height='14' rx='2' fill='%2399c2a2'/%3E%3Crect x='12.5' y='9' width='7' height='14' rx='2' fill='%23f0c05a'/%3E%3Crect x='21' y='9' width='7' height='14' rx='2' fill='%23e07a5f'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@600;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column. Three definitions up top, then one behavior card at a time with three sort buttons.
+   Each card is tagged clear-cut, borderline, depends on place, or changed over time. A sorted summary ends it. */
+:root {
+  --paper: #f4f2f7; --surface: #ffffff; --ink: #251f38; --muted: #645d7a; --line: #dcd8e6;
+  --folk: #2f7d5b; --more: #a86a00; --taboo: #b23a2a; --focus: #a86a00;
+  --display: "Lexend", "Segoe UI", system-ui, sans-serif;
+  --body: Aptos, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #15121f; --surface: #1f1b2e; --ink: #eeebf6; --muted: #aaa3c2; --line: #383250;
+    --folk: #7fd0a8; --more: #f0c05a; --taboo: #f08a78; --focus: #f0c05a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #15121f; --surface: #1f1b2e; --ink: #eeebf6; --muted: #aaa3c2; --line: #383250;
+  --folk: #7fd0a8; --more: #f0c05a; --taboo: #f08a78; --focus: #f0c05a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 1.05rem; line-height: 1.55; }
+.wrap { max-width: 46rem; margin: 0 auto; padding: 2rem 1rem 3rem; display: grid; gap: 1.6rem; }
+header { display: grid; gap: .45rem; }
+.kicker { font-size: .85rem; color: var(--muted); }
+.kicker a, footer a, .notes a, .prose a { color: var(--ink); }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.1rem, 7.5vw, 3.2rem); line-height: 1.03; margin: 0; letter-spacing: -.02em; text-wrap: balance; }
+h2 { font-family: var(--display); font-weight: 600; font-size: 1.35rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 600; font-size: 1.05rem; margin: 0; }
+.lede { margin: 0; max-width: 62ch; color: var(--muted); }
+.defs { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: .8rem; }
+.def { background: var(--surface); border: 1px solid var(--line); border-top: 5px solid; border-radius: 10px; padding: .9rem 1rem; }
+.def p { margin: .3rem 0 0; font-size: .95rem; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem; display: grid; gap: 1rem; }
+.meta { display: flex; justify-content: space-between; font-size: .85rem; color: var(--muted); }
+.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress span { display: block; height: 100%; background: var(--ink); }
+.behavior { font-family: var(--display); font-weight: 600; font-size: 1.45rem; line-height: 1.25; margin: .4rem 0; text-wrap: balance; }
+.sort { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+.sort button { font: inherit; font-weight: 700; padding: .8rem .4rem; border-radius: 10px; border: 2px solid; background: transparent; color: var(--ink); cursor: pointer; }
+.sort button[aria-pressed="true"] { color: var(--surface); }
+.sort button:disabled { cursor: default; opacity: .75; }
+.sort button[aria-pressed="true"]:disabled { opacity: 1; }
+.primary { font: inherit; font-weight: 600; padding: .65rem 1.2rem; border-radius: 10px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer; }
+.linkish { font: inherit; font-size: .9rem; background: none; border: none; padding: 0; color: var(--muted); text-decoration: underline; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.tag { display: inline-block; font-size: .8rem; font-weight: 700; padding: .15rem .6rem; border-radius: 999px; border: 1px solid var(--ink); }
+.verdict { margin: 0; }
+.note { margin: 0; max-width: 60ch; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1rem; }
+.cols ul { margin: .4rem 0 0; padding-left: 1.1rem; font-size: .93rem; }
+.cols li { margin-bottom: .3rem; }
+.cols .diff { color: var(--muted); font-size: .82rem; }
+.prose p, .prose ol { margin: 0 0 .7rem; max-width: 64ch; }
+.prose li { margin-bottom: .4rem; }
+.notes { font-size: .88rem; color: var(--muted); }
+footer { font-size: .85rem; color: var(--muted); }
+.hidden { display: none !important; }
+@media (max-width: 560px) { .card { padding: 1.1rem; } .behavior { font-size: 1.25rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">A companion to <em>A Sociology Experiment</em> · Norms (Chapters 3 and 5) · By Gwen Sharp · <a href="https://x.com/gsharpokie">@gsharpokie</a></div>
+    <h1>Folkway, More, or Taboo?</h1>
+    <p class="lede">Norms are the rules and expectations a group uses to guide its members’ behavior. Sociologists sort them by how strongly people react when someone breaks one. Sort these 16 behaviors as they’d be seen in the United States today. Some are easy. Others are meant to start an argument.</p>
+  </header>
+
+  <div class="defs">
+    <div class="def" style="border-top-color:var(--folk)"><h3>Folkway</h3><p>An everyday custom. Breaking it gets you odd looks or mild annoyance.</p></div>
+    <div class="def" style="border-top-color:var(--more)"><h3>More <span style="font-weight:400">(“MOR-ay”)</span></h3><p>A norm tied to right and wrong. Breaking it gets you judged as a bad person, and sometimes punished.</p></div>
+    <div class="def" style="border-top-color:var(--taboo)"><h3>Taboo</h3><p>A norm so strong that breaking it, or even thinking about it, brings disgust or horror.</p></div>
+  </div>
+
+  <section class="card" id="play" aria-live="polite">
+    <div class="meta"><span id="counter"></span><button class="linkish" id="skip">Skip to the full list</button></div>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+    <p class="behavior" id="behavior"></p>
+    <div class="sort" id="sort">
+      <button data-v="folk" style="border-color:var(--folk)">Folkway</button>
+      <button data-v="more" style="border-color:var(--more)">More</button>
+      <button data-v="taboo" style="border-color:var(--taboo)">Taboo</button>
+    </div>
+    <div id="reveal" class="hidden" style="display:grid;gap:.6rem">
+      <p class="verdict" id="verdict"></p>
+      <p class="note" id="note"></p>
+      <div><button class="primary" id="next">Next</button></div>
+    </div>
+  </section>
+
+  <section class="card hidden after">
+    <h2 id="sumHead">The full list</h2>
+    <p class="lede" id="sumLede"></p>
+    <div class="cols" id="cols"></div>
+    <div><button class="primary" id="again">Sort them again</button></div>
+  </section>
+
+  <section class="card prose hidden after">
+    <h2>What the hard ones show</h2>
+    <p><strong>The categories are a scale, not three boxes.</strong> William Graham Sumner introduced “folkways” and “mores” in 1906 to describe how strongly a group cares about a rule. Plenty of norms sit between them, and people in the same society disagree about where.</p>
+    <p><strong>The same act can land in different places.</strong> Eating beef is ordinary for most Americans and forbidden for many Hindus. Leaving a tip is expected in the U.S. and can be awkward in Japan. A norm belongs to a group, not to the act itself.</p>
+    <p><strong>Norms move.</strong> Living together before marriage went from scandal to ordinary in a few decades. Smoking indoors and driving after drinking went the other way. When a norm changes category, it usually means some group worked to change it.</p>
+    <p><strong>Some norms are also laws, and some aren’t.</strong> Drunk driving is a more and a crime. Adultery is a more that’s rarely prosecuted. Jaywalking is a law most people treat as less than a folkway.</p>
+    <p><strong>Taboos work through disgust.</strong> Psychologists find that people often can’t explain why a taboo act is wrong, even when they’re certain it is. Anthropologists point out that what a group finds disgusting tends to mark the boundaries it cares most about: family, the body, food, and the dead. The word itself comes from Polynesian languages.</p>
+    <h3>Talk about it</h3>
+    <ol>
+      <li>Which cards did your group disagree on? What does the disagreement tell you about the people in the room (age, region, religion, family)?</li>
+      <li>Pick one “changed over time” card. Who pushed for the change, and who resisted?</li>
+      <li>Think of a folkway you’ve broken on purpose or by accident. How did people let you know? Those reactions are called sanctions.</li>
+      <li>Add a card of your own that would be sorted differently by your grandparents, or by someone from another country.</li>
+      <li>Is anything a taboo everywhere? What would it take to find out?</li>
+    </ol>
+  </section>
+
+  <section class="notes prose hidden after">
+    <h3>About this page</h3>
+    <p>The “usual answer” for each card reflects how introductory sociology typically classifies it for the contemporary United States. It’s a starting point for discussion, not a measured fact, and several cards are deliberately borderline. Nothing you select is saved or sent anywhere.</p>
+    <p><strong>Sources:</strong> Sumner, William Graham. 1906. <em>Folkways: A Study of the Sociological Importance of Usages, Manners, Customs, Mores, and Morals</em>. Ginn. Douglas, Mary. 1966. <em>Purity and Danger: An Analysis of Concepts of Pollution and Taboo</em>. Routledge. Haidt, Jonathan. 2001. “The Emotional Dog and Its Rational Tail: A Social Intuitionist Approach to Moral Judgment.” <em>Psychological Review</em> 108(4): 814–834.</p>
+    <h3>How to cite this page</h3>
+    <p>Sharp, Gwen. 2026. “Folkway, More, or Taboo?” <a href="https://gsharpokie.github.io/normsort/">https://gsharpokie.github.io/normsort/</a></p>
+    <p>Have a better card? <a href="https://github.com/gsharpokie/normsort/issues/new">Suggest one</a> (needs a free GitHub account).</p>
+  </section>
+
+  <footer>Created by Gwen Sharp (<a href="https://x.com/gsharpokie">@gsharpokie</a>). Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.</footer>
+</div>
+
+<script>
+// ok: the answer(s) counted as matching the usual classification. kind: clear | border | place | time.
+const CARDS = [
+  { t: "Standing in an elevator facing the back wall", ok: ["folk"], kind: "clear",
+    note: "Nobody is harmed and no one would call you a bad person. You’d just get stares, which is what makes it a folkway." },
+  { t: "Cheating on a final exam", ok: ["more"], kind: "clear",
+    note: "People see it as dishonest and unfair to others, and schools punish it. That moral judgment is the mark of a more." },
+  { t: "Eating human flesh", ok: ["taboo"], kind: "clear",
+    note: "Most people recoil at the idea before they can say why. That gut-level horror is what separates a taboo from a more." },
+  { t: "Wearing pajamas to a job interview", ok: ["folk"], kind: "clear",
+    note: "It would cost you the job, but the interviewer would think you’re clueless, not immoral." },
+  { t: "Cutting into the middle of a long line", ok: ["folk", "more"], kind: "border",
+    note: "It’s usually taught as a folkway, but watch how people react: with real anger. Lines are about fairness, which pushes this toward a more." },
+  { t: "Having an affair while married", ok: ["more"], kind: "clear",
+    note: "Large majorities of Americans say it’s morally wrong. It’s a more that is almost never treated as a crime." },
+  { t: "Leaving no tip for a restaurant server", ok: ["folk", "more"], kind: "place",
+    note: "In the U.S., many people see it as unfair to a worker who depends on tips, so it leans toward a more. In Japan, tipping isn’t expected, and leaving one can cause confusion." },
+  { t: "Sex between a parent and their adult child", ok: ["taboo"], kind: "clear",
+    note: "The incest taboo is found in nearly every known society, though societies differ on which relatives it covers." },
+  { t: "Keeping your shoes on inside someone’s home", ok: ["folk"], kind: "place",
+    note: "In much of the U.S. it’s fine or a minor matter. In Japan, Korea, and many other places, and in plenty of American households, it’s a real sign of disrespect." },
+  { t: "Driving home after several drinks", ok: ["more"], kind: "time",
+    note: "Today it’s a more and a crime. A few decades ago many Americans treated it as a risky habit, closer to a folkway. Groups like Mothers Against Drunk Driving, founded in 1980, campaigned to change how people saw it." },
+  { t: "Eating a hamburger", ok: ["folk", "more", "taboo"], kind: "place",
+    note: "A trick card. For most Americans it breaks no norm at all. For many Hindus, eating beef is forbidden, and for some it’s a taboo. Whether an act violates a norm depends on the group." },
+  { t: "An unmarried couple living together", ok: ["folk", "more"], kind: "time",
+    note: "In the mid-1900s this violated a more and was called “living in sin.” Today most American couples who marry have lived together first, and for most people it breaks no norm. Some religious communities still treat it as a more." },
+  { t: "Ending a relationship by never answering their texts again", ok: ["folk", "more"], kind: "border",
+    note: "“Ghosting” is new enough that the norm is still being worked out. People tend to judge it more harshly the longer the relationship lasted, and generations disagree." },
+  { t: "Lighting a cigarette at a restaurant table", ok: ["folk", "more"], kind: "time",
+    note: "Ordinary through most of the 1900s. Now it’s banned in restaurants across most of the country, and other diners would object out loud. This one moved from no norm, to folkway, to something stronger." },
+  { t: "Marrying your first cousin", ok: ["more", "taboo"], kind: "place",
+    note: "Many U.S. states ban it and many Americans react with disgust. In parts of the Middle East, South Asia, and North Africa, it’s common and often preferred. It was also unremarkable among European and American elites into the 1800s." },
+  { t: "Eating dog meat", ok: ["taboo"], kind: "place",
+    note: "In the U.S., dogs are family members, and eating one is a taboo. In some countries it has been a traditional food, though that’s changing: South Korea passed a ban in 2024." }
+];
+const NAME = { folk: "Folkway", more: "More", taboo: "Taboo" };
+const COLOR = { folk: "var(--folk)", more: "var(--more)", taboo: "var(--taboo)" };
+const KIND = { clear: "Clear-cut", border: "Borderline", place: "Depends on place", time: "Changed over time" };
+const $ = id => document.getElementById(id);
+const picks = new Array(CARDS.length).fill(null);
+let idx = 0;
+const usual = c => c.ok.map(k => NAME[k].toLowerCase()).join(c.ok.length === 3 ? ", " : " or ");
+
+function render() {
+  if (idx >= CARDS.length) return finish();
+  const c = CARDS[idx];
+  $("counter").textContent = `Card ${idx + 1} of ${CARDS.length}`;
+  $("bar").style.width = (idx / CARDS.length * 100) + "%";
+  $("behavior").textContent = c.t;
+  document.querySelectorAll("#sort button").forEach(b => { b.disabled = false; b.setAttribute("aria-pressed", "false"); b.style.background = "transparent"; });
+  $("reveal").classList.add("hidden");
+  $("next").textContent = idx === CARDS.length - 1 ? "See the full list" : "Next";
+}
+function pick(v, btn) {
+  const c = CARDS[idx]; picks[idx] = v;
+  document.querySelectorAll("#sort button").forEach(b => { b.disabled = true; });
+  btn.setAttribute("aria-pressed", "true"); btn.style.background = COLOR[v];
+  const match = c.ok.includes(v);
+  $("verdict").innerHTML = `<span class="tag">${KIND[c.kind]}</span> ` +
+    (c.kind === "clear" ? (match ? `<strong>Yes.</strong> The usual answer is ${usual(c)}.` : `<strong>Most people would say ${usual(c)}.</strong>`)
+      : c.ok.length === 3 ? `<strong>There’s no single answer.</strong>`
+      : match ? `<strong>That’s a defensible answer.</strong> So is ${c.ok.filter(k => k !== v).map(k => NAME[k].toLowerCase()).join(" or ") || "nothing else"}.`
+      : `<strong>You could argue it.</strong> The usual answer is ${usual(c)}.`);
+  $("note").textContent = c.note;
+  $("reveal").classList.remove("hidden"); $("next").focus();
+}
+function finish() {
+  $("play").classList.add("hidden");
+  document.querySelectorAll(".after").forEach(e => e.classList.remove("hidden"));
+  const played = picks.some(p => p !== null);
+  const clear = CARDS.map((c, i) => [c, picks[i]]).filter(([c, p]) => c.kind === "clear" && p !== null);
+  const hit = clear.filter(([c, p]) => c.ok.includes(p)).length;
+  $("sumHead").textContent = played ? "Your sort" : "The full list";
+  $("sumLede").textContent = played
+    ? `You matched the usual answer on ${hit} of the ${clear.length} clear-cut cards you sorted. The other ${CARDS.length - CARDS.filter(c => c.kind === "clear").length} cards are judgment calls; compare yours with a classmate’s.`
+    : "Each card is listed under its usual answer. Cards with more than one defensible answer appear under the first.";
+  $("cols").innerHTML = ["folk", "more", "taboo"].map(k => {
+    const items = CARDS.map((c, i) => [c, picks[i]]).filter(([c, p]) => (played ? p : c.ok[0]) === k);
+    return `<div><h3 style="color:${COLOR[k]}">${NAME[k]}</h3><ul>` + (items.map(([c, p]) =>
+      `<li>${c.t}<br><span class="diff">${KIND[c.kind]}${played && !c.ok.includes(p) ? ` · usual answer: ${usual(c)}` : c.ok.length > 1 ? ` · also defensible: ${c.ok.filter(o => o !== k).map(o => NAME[o].toLowerCase()).join(", ")}` : ""}</span></li>`).join("") || `<li class="diff">None</li>`) + `</ul></div>`;
+  }).join("");
+  document.querySelector(".after").scrollIntoView({ block: "start" });
+}
+document.querySelectorAll("#sort button").forEach(b => b.addEventListener("click", () => pick(b.dataset.v, b)));
+$("next").addEventListener("click", () => { idx++; render(); });
+$("skip").addEventListener("click", () => { idx = CARDS.length; finish(); });
+$("again").addEventListener("click", () => { picks.fill(null); idx = 0; document.querySelectorAll(".after").forEach(e => e.classList.add("hidden")); $("play").classList.remove("hidden"); render(); window.scrollTo(0, 0); });
+if (location.hash === "#list") { idx = CARDS.length; finish(); } else render();
+</script>
+</body>
+</html>
