@@ -212,7 +212,7 @@ function pick(v, btn) {
   $("verdict").innerHTML = `<span class="tag">${KIND[c.kind]}</span> ` +
     (c.kind === "clear" ? (match ? `<strong>Yes.</strong> The usual answer is ${usual(c)}.` : `<strong>Most people would say ${usual(c)}.</strong>`)
       : c.ok.length === 3 ? `<strong>There’s no single answer.</strong>`
-      : match && c.ok.length === 1 ? `<strong>That’s the usual answer in much of the U.S.</strong> But not everywhere:`
+      : match && c.ok.length === 1 ? `<strong>That’s the usual answer in the U.S.</strong> But not everywhere:`
       : match ? `<strong>That’s a defensible answer.</strong> So is ${c.ok.filter(k => k !== v).map(k => NAME[k].toLowerCase()).join(" or ")}.`
       : c.kind === "place" ? `<strong>Are you sure?</strong> In the U.S., the usual answer is ${usual(c)}.`
       : `<strong>Are you sure?</strong> The usual answer is ${usual(c)}.`);
