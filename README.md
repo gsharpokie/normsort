@@ -1,6 +1,6 @@
 # Folkway, More, or Taboo?
 
-An interactive card sort about norms. Students sort 16 behaviors as folkways, mores, or taboos, get a short explanation after each, and end with their full sort to compare with classmates. Some cards are clear-cut; others are borderline, depend on the culture, or have changed over time. By Gwen Sharp, as a companion to the norms material in *A Sociology Experiment* (Chapters 3 and 5).
+An interactive card sort about norms. Students sort 16 behaviors as folkways, mores, or taboos, get a short explanation after each, and end with their full sort to compare with classmates. Some cards are clear-cut; others are borderline, depend on the culture, or have changed over time. By Gwen Sharp.
 
 **Live site:** https://gsharpokie.github.io/normsort/
 
