@@ -27,7 +27,7 @@
    Each card is tagged clear-cut, borderline, depends on place, or changed over time. A sorted summary ends it. */
 :root {
   --paper: #f4f2f7; --surface: #ffffff; --ink: #251f38; --muted: #645d7a; --line: #dcd8e6;
-  --folk: #2f7d5b; --more: #a86a00; --taboo: #b23a2a; --focus: #a86a00;
+  --folk: #2f7d5b; --more: #9a6100; --taboo: #b23a2a; --focus: #9a6100;
   --display: "Lexend", "Segoe UI", system-ui, sans-serif;
   --body: Aptos, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   color-scheme: light;
@@ -82,6 +82,9 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline
 footer { font-size: .85rem; color: var(--muted); }
 .hidden { display: none !important; }
 @media (max-width: 560px) { .card { padding: 1.1rem; } .behavior { font-size: 1.25rem; } }
+
+/* Main landmark for screen readers; keeps the same spacing as before. */
+.wrap-main { display: grid; gap: inherit; min-width: 0; }
 </style>
 </head>
 <body>
@@ -91,6 +94,7 @@ footer { font-size: .85rem; color: var(--muted); }
     <h1>Folkway, More, or Taboo?</h1>
     <p class="lede">Norms are the rules and expectations a group uses to guide its members’ behavior. Sociologists sort them by how strongly people react when someone breaks one. Sort these 16 behaviors as they’d be seen in the United States today. Some are easy. Others are meant to start an argument.</p>
   </header>
+  <main class="wrap-main">
 
   <div class="defs">
     <div class="def" style="border-top-color:var(--folk)"><h3>Folkway</h3><p>An everyday custom. Breaking it gets you odd looks or mild annoyance.</p></div>
@@ -147,6 +151,7 @@ footer { font-size: .85rem; color: var(--muted); }
     <p>Have a better card? <a href="https://github.com/gsharpokie/normsort/issues/new">Suggest one</a> (needs a free GitHub account).</p>
   </section>
 
+  </main>
   <footer>Created by Gwen Sharp (<a href="https://x.com/gsharpokie">@gsharpokie</a>). Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.</footer>
 </div>
 
