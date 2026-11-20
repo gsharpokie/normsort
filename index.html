@@ -12,7 +12,7 @@
 <meta property="og:image" content="https://gsharpokie.github.io/normsort/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Folkway, More, or Taboo? A card reading “Cutting into the middle of a long line” with three choices.">
+<meta property="og:image:alt" content="Folkway, More, or Taboo? A card reading “Cutting into the middle of a long line” with four choices.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:creator" content="@gsharpokie">
 <meta name="twitter:title" content="Folkway, More, or Taboo?">
@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@600;800&display=swap" rel="stylesheet">
 <style>
-/* Layout: one column. Three definitions up top, then one behavior card at a time with three sort buttons.
+/* Layout: one column. Three definitions up top, then one behavior card at a time with four buttons (three categories plus “It depends”).
    Each card is tagged clear-cut, borderline, depends on place, or changed over time. A sorted summary ends it. */
 :root {
   --paper: #f4f2f7; --surface: #ffffff; --ink: #251f38; --muted: #645d7a; --line: #dcd8e6;
@@ -61,7 +61,8 @@ h3 { font-family: var(--display); font-weight: 600; font-size: 1.05rem; margin: 
 .progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
 .progress span { display: block; height: 100%; background: var(--ink); }
 .behavior { font-family: var(--display); font-weight: 600; font-size: 1.45rem; line-height: 1.25; margin: .4rem 0; text-wrap: balance; }
-.sort { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+.sort { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; }
+@media (max-width: 560px) { .sort { grid-template-columns: repeat(2, 1fr); } }
 .sort button { font: inherit; font-weight: 700; padding: .8rem .4rem; border-radius: 10px; border: 2px solid; background: transparent; color: var(--ink); cursor: pointer; }
 .sort button[aria-pressed="true"] { color: var(--surface); }
 .sort button:disabled { cursor: default; opacity: .75; }
@@ -92,7 +93,7 @@ footer { font-size: .85rem; color: var(--muted); }
   <header>
     <div class="kicker">By Gwen Sharp · <a href="https://x.com/gsharpokie">@gsharpokie</a></div>
     <h1>Folkway, More, or Taboo?</h1>
-    <p class="lede">Norms are the rules and expectations a group uses to guide its members’ behavior. Sociologists sort them by how strongly people react when someone breaks one. Sort these 16 behaviors as they’d be seen in the United States today. Some are easy. Others are meant to start an argument.</p>
+    <p class="lede">Norms are the rules and expectations a group uses to guide its members’ behavior. Sociologists sort them by how strongly people react when someone breaks one. Sort these 16 behaviors as they’d be seen in the United States today. Some are easy. Others are meant to start an argument. If you think the answer depends on where, when, or who you ask, choose “It depends.”</p>
   </header>
   <main class="wrap-main">
 
@@ -110,6 +111,7 @@ footer { font-size: .85rem; color: var(--muted); }
       <button data-v="folk" style="border-color:var(--folk)">Folkway</button>
       <button data-v="more" style="border-color:var(--more)">More</button>
       <button data-v="taboo" style="border-color:var(--taboo)">Taboo</button>
+      <button data-v="dep" style="border-color:var(--muted)">It depends</button>
     </div>
     <div id="reveal" class="hidden" style="display:grid;gap:.6rem">
       <p class="verdict" id="verdict"></p>
@@ -134,6 +136,7 @@ footer { font-size: .85rem; color: var(--muted); }
     <p><strong>Taboos work through disgust.</strong> Psychologists find that people often can’t explain why a taboo act is wrong, even when they’re certain it is. Anthropologists point out that what a group finds disgusting tends to mark the boundaries it cares most about: family, the body, food, and the dead. The word itself comes from the Pacific. In Tongan, <em>tapu</em> (also written <em>tabu</em>) means sacred or forbidden: set apart from ordinary use, often for the gods or for chiefs. British explorer James Cook brought it into English after visiting Tonga in 1777, when his Tongan guests refused to eat at his table because the food was <em>tapu</em>. Related words are used across the Pacific, such as <em>tapu</em> in Māori and <em>kapu</em> in Hawaiian.</p>
     <h3>Talk about it</h3>
     <ol>
+      <li>Which cards did you mark “It depends”? Depends on what: where you are, when, or who you ask? Did your classmates pick “It depends” for the same cards?</li>
       <li>Which cards did your group disagree on? What does the disagreement tell you about the people in the room (age, region, religion, family)?</li>
       <li>Pick one “changed over time” card. Who pushed for the change, and who resisted?</li>
       <li>Think of a folkway you’ve broken on purpose or by accident. How did people let you know? Those reactions are called sanctions.</li>
@@ -191,8 +194,8 @@ const CARDS = [
   { t: "Eating dog meat", ok: ["taboo"], kind: "place",
     note: "In the U.S., dogs are family members, and eating one is a taboo. In some countries it has been a traditional food, though that’s changing: South Korea passed a ban in 2024." }
 ];
-const NAME = { folk: "Folkway", more: "More", taboo: "Taboo" };
-const COLOR = { folk: "var(--folk)", more: "var(--more)", taboo: "var(--taboo)" };
+const NAME = { folk: "Folkway", more: "More", taboo: "Taboo", dep: "It depends" };
+const COLOR = { folk: "var(--folk)", more: "var(--more)", taboo: "var(--taboo)", dep: "var(--ink)" };
 const KIND = { clear: "Clear-cut", border: "Borderline", place: "Depends on place", time: "Changed over time" };
 const $ = id => document.getElementById(id);
 const picks = new Array(CARDS.length).fill(null);
@@ -214,8 +217,16 @@ function pick(v, btn) {
   document.querySelectorAll("#sort button").forEach(b => { b.disabled = true; });
   btn.setAttribute("aria-pressed", "true"); btn.style.background = COLOR[v];
   const match = c.ok.includes(v);
+  // "It depends" gets its own feedback: fair on judgment-call cards, questioned on clear-cut ones.
+  const DEP = {
+    place: `<strong>Fair: it does depend on place.</strong> For the U.S. today, the usual answer is ${usual(c)}.`,
+    time: `<strong>Fair: it depends on when you ask.</strong> For the U.S. today, the usual answer is ${usual(c)}.`,
+    border: `<strong>Fair: it depends on the situation and who you ask.</strong> Most people would say ${usual(c)}.`,
+    clear: `<strong>Are you sure?</strong> Hardly anyone in the U.S. would disagree on this one. The usual answer is ${usual(c)}.`
+  };
   $("verdict").innerHTML = `<span class="tag">${KIND[c.kind]}</span> ` +
-    (c.kind === "clear" ? (match ? `<strong>Yes.</strong> The usual answer is ${usual(c)}.` : `<strong>Most people would say ${usual(c)}.</strong>`)
+    (v === "dep" ? (c.ok.length === 3 ? `<strong>Good answer.</strong> This card is the clearest case of “it depends.” It can be any of the three.` : DEP[c.kind])
+    : c.kind === "clear" ? (match ? `<strong>Yes.</strong> The usual answer is ${usual(c)}.` : `<strong>Most people would say ${usual(c)}.</strong>`)
       : c.ok.length === 3 ? `<strong>There’s no single answer.</strong>`
       : match && c.ok.length === 1 ? `<strong>That’s the usual answer in the U.S.</strong> But not everywhere:`
       : match ? `<strong>That’s a defensible answer.</strong> So is ${c.ok.filter(k => k !== v).map(k => NAME[k].toLowerCase()).join(" or ")}.`
@@ -234,10 +245,10 @@ function finish() {
   $("sumLede").textContent = played
     ? `You matched the usual answer on ${hit} of the ${clear.length} clear-cut cards you sorted. The other ${CARDS.length - CARDS.filter(c => c.kind === "clear").length} cards are judgment calls; compare yours with a classmate’s.`
     : "Each card is listed under its usual answer. Cards with more than one defensible answer appear under the first.";
-  $("cols").innerHTML = ["folk", "more", "taboo"].map(k => {
+  $("cols").innerHTML = (played ? ["folk", "more", "taboo", "dep"] : ["folk", "more", "taboo"]).map(k => {
     const items = CARDS.map((c, i) => [c, picks[i]]).filter(([c, p]) => (played ? p : c.ok[0]) === k);
     return `<div><h3 style="color:${COLOR[k]}">${NAME[k]}</h3><ul>` + (items.map(([c, p]) =>
-      `<li>${c.t}<br><span class="diff">${KIND[c.kind]}${played && !c.ok.includes(p) ? ` · usual answer: ${usual(c)}` : c.ok.length > 1 ? ` · also defensible: ${c.ok.filter(o => o !== k).map(o => NAME[o].toLowerCase()).join(", ")}` : ""}</span></li>`).join("") || `<li class="diff">None</li>`) + `</ul></div>`;
+      `<li>${c.t}<br><span class="diff">${KIND[c.kind]}${played && k === "dep" ? ` · usual U.S. answer: ${usual(c)}` : played && !c.ok.includes(p) ? ` · usual answer: ${usual(c)}` : c.ok.length > 1 ? ` · also defensible: ${c.ok.filter(o => o !== k).map(o => NAME[o].toLowerCase()).join(", ")}` : ""}</span></li>`).join("") || `<li class="diff">None</li>`) + `</ul></div>`;
   }).join("");
   document.querySelector(".after").scrollIntoView({ block: "start" });
 }

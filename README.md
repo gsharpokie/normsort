@@ -1,6 +1,6 @@
 # Folkway, More, or Taboo?
 
-An interactive card sort about norms. Students sort 16 behaviors as folkways, mores, or taboos, get a short explanation after each, and end with their full sort to compare with classmates. Some cards are clear-cut; others are borderline, depend on the culture, or have changed over time. By Gwen Sharp.
+An interactive card sort about norms. Students sort 16 behaviors as folkways, mores, or taboos (or say “It depends”), get a short explanation after each, and end with their full sort to compare with classmates. Some cards are clear-cut; others are borderline, depend on the culture, or have changed over time. By Gwen Sharp.
 
 **Live site:** https://gsharpokie.github.io/normsort/
 
@@ -8,7 +8,8 @@ An interactive card sort about norms. Students sort 16 behaviors as folkways, mo
 
 - **Three definitions** stay at the top of the page.
 - **One card at a time.** After each choice, the page shows a label (Clear-cut, Borderline, Depends on place, or Changed over time), the usual answer, and a sentence or two of explanation. Borderline cards accept more than one answer.
-- **Your sort:** every card under the category the student chose, with the usual answer noted where it differs.
+- **“It depends” button:** for cards where the answer changes with place, time, or who you ask. On judgment-call cards it gets “Fair,” with the usual U.S. answer; on clear-cut cards it gets “Are you sure?”
+- **Your sort:** every card under the category the student chose (including an “It depends” column), with the usual answer noted where it differs.
 - **What the hard ones show,** plus discussion questions (including one that asks students to write their own card).
 
 Nothing a student selects is saved or sent anywhere.
